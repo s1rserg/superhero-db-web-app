@@ -5,6 +5,11 @@ dotenv.config();
 interface Config {
   databaseURL: string;
   JWTsecret: string;
+  cloudinary: {
+    cloudName: string;
+    apiKey: string;
+    apiSecret: string;
+  };
 }
 
 function requireEnv(value: string | undefined, key: string): string {
@@ -17,6 +22,11 @@ function requireEnv(value: string | undefined, key: string): string {
 const config: Config = {
   databaseURL: requireEnv(process.env.DATABASE_URL, 'DATABASE_URL'),
   JWTsecret: requireEnv(process.env.JWT_SECRET, 'JWT_SECRET') || 'fallback_secret',
+  cloudinary: {
+    cloudName: requireEnv(process.env.CLOUDINARY_CLOUD_NAME, 'CLOUDINARY_CLOUD_NAME'),
+    apiKey: requireEnv(process.env.CLOUDINARY_API_KEY, 'CLOUDINARY_API_KEY'),
+    apiSecret: requireEnv(process.env.CLOUDINARY_API_SECRET, 'CLOUDINARY_API_SECRET'),
+  },
 };
 
 export default config;
