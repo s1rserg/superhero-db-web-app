@@ -1,1 +1,1 @@
-// export * from './modules/users/users';
+export * from './modules/superheroes/superheroes';
