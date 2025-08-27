@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAll, getById, create, update, deleteById } from './actions.js';
+import { getAll, getById, create, update, deleteById } from './actions';
 import { SuperheroDTO, ValueOf } from '~/common/types/types';
 import { DataStatus } from '~/common/enums/enums';
 import { notifyError, notifySuccess } from '~/utils/notification/notification';
+import { SLICE_NAME } from './constants';
 
 export interface UsersState {
   superheroes: SuperheroDTO[];
@@ -28,8 +29,8 @@ const initialState: UsersState = {
   error: { code: undefined, message: undefined },
 };
 
-const { reducer, actions, name } = createSlice({
-  name: 'superheroes',
+const { reducer, actions } = createSlice({
+  name: SLICE_NAME,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -126,4 +127,4 @@ const { reducer, actions, name } = createSlice({
   },
 });
 
-export { reducer, name, actions };
+export { reducer, actions };

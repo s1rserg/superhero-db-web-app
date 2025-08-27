@@ -1,5 +1,5 @@
-import { getAll, getById, create, update, deleteById } from './actions.js';
-import { actions, reducer } from './slice.js';
+import { getAll, getById, create, update, deleteById } from './actions';
+import { actions, reducer } from './slice';
 
 const allActions = {
   ...actions,

@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--header-padding-height) 20px;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-secondary);
+  border-bottom: var(--header-border-height) solid var(--color-border-primary);
+}
+
+.header__logo {
+  color: inherit;
+  text-decoration: none;
+  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  filter: brightness(0) invert(1);
+}
