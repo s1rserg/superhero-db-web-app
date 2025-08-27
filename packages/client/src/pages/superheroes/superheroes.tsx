@@ -1,11 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import { DataStatus } from '~/common/enums/enums';
-import { PageLayout } from '~/components/components';
-import { useAppDispatch, useAppSelector, usePagination, useAppForm, useSearchParam } from '~/hooks/hooks';
+import { Button, Loader, Modal, PageLayout } from '~/components/components';
+import { useAppDispatch, useAppSelector, usePagination, useAppForm, useSearchParam, useModal } from '~/hooks/hooks';
 import { actions } from '~/store/superheroes/superheroes';
 import styles from './styles.module.css';
 import { Pagination } from '~/components/pagination/pagination';
 import { Search } from '~/components/search/search';
+import SuperheroCard from './components/superhero-card/superhero-card';
+import { SuperheroCreateRequestDTO } from '~/common/types/types';
+import { SuperheroCreateForm } from './components/superhero-create-form/superhero-create-form';
 
 type SearchForm = {
   search: string;
@@ -13,7 +16,7 @@ type SearchForm = {
 
 export const Superheroes: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { superheroes, totalAmount, status } = useAppSelector((state) => state.superheroesReducer);
+  const { superheroes, totalAmount, status, createStatus } = useAppSelector((state) => state.superheroesReducer);
 
   const { page, perPage, totalPages, setPage, setPerPage, nextPage, prevPage } = usePagination(totalAmount, 1, 10);
   const [searchParam, setSearchParam] = useSearchParam('search', '');
@@ -39,12 +42,26 @@ export const Superheroes: React.FC = () => {
     );
   }, [dispatch, page, perPage, searchParam]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isLoading = status === DataStatus.PENDING;
+
+  const handleSuperheroCreateSubmit = useCallback(
+    (payload: SuperheroCreateRequestDTO) => {
+      void dispatch(actions.create(payload));
+    },
+    [dispatch]
+  );
+
+  const { isOpened: isCreateModalOpen, onClose: handleCreateModalClose, onOpen: handleCreateModalOpen } = useModal();
+
+  useEffect(() => {
+    if (createStatus === DataStatus.SUCCESS) {
+      handleCreateModalClose();
+    }
+  }, [handleCreateModalClose, createStatus]);
 
   return (
     <PageLayout>
-      <div className={styles.header}>
+      <div className={styles.top}>
         <Search<SearchForm>
           control={control}
           errors={errors}
@@ -54,23 +71,36 @@ export const Superheroes: React.FC = () => {
           placeholder="Enter a nickname of a superhero..."
           onChange={handleSearchChange}
         />
+        <div>
+          <Button label="Create New" onClick={handleCreateModalOpen} />
+        </div>
       </div>
 
-      <div className={styles.list}>
-        {superheroes.map((s) => (
-          <div key={s.id}>{s.nickname}</div>
+      <div className={styles.grid}>
+        {superheroes.map((hero) => (
+          <SuperheroCard key={hero.id} hero={hero} />
         ))}
       </div>
 
-      <Pagination
-        page={page}
-        perPage={perPage}
-        nextPage={nextPage}
-        prevPage={prevPage}
-        setPage={setPage}
-        setPerPage={setPerPage}
-        totalPages={totalPages}
-      />
+      {isLoading ? (
+        <div>
+          <Loader />
+        </div>
+      ) : (
+        <Pagination
+          page={page}
+          perPage={perPage}
+          nextPage={nextPage}
+          prevPage={prevPage}
+          setPage={setPage}
+          setPerPage={setPerPage}
+          totalPages={totalPages}
+        />
+      )}
+
+      <Modal isOpened={isCreateModalOpen} onClose={handleCreateModalClose} title="Create new workout">
+        <SuperheroCreateForm onSubmit={handleSuperheroCreateSubmit} />
+      </Modal>
     </PageLayout>
   );
 };
