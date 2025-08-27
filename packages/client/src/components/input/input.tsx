@@ -7,13 +7,14 @@ type Properties<T extends FieldValues> = {
   autoComplete?: string;
   control?: Control<T, null>;
   errors?: FieldErrors<T>;
-  name: FieldPath<T>;
   label: string;
+  isLabelHidden?: boolean;
   leftIcon?: JSX.Element;
+  name: FieldPath<T>;
   placeholder?: string;
   rightIcon?: JSX.Element;
-  type?: 'email' | 'password' | 'search' | 'text' | 'file' | 'number';
-  onImageChange?: (file: File | null) => void;
+  rowsCount?: number;
+  type?: 'search' | 'text';
 };
 
 const Input = <T extends FieldValues>({
@@ -21,31 +22,27 @@ const Input = <T extends FieldValues>({
   control,
   errors,
   label,
+  isLabelHidden = false,
   leftIcon,
   name,
   placeholder = '',
   rightIcon,
+  rowsCount,
   type = 'text',
-  onImageChange,
 }: Properties<T>) => {
   const { field } = useController({ control, name });
   const error = errors ? errors[name]?.message : undefined;
   const hasError = Boolean(error);
   const hasLeftIcon = Boolean(leftIcon);
   const hasRightIcon = Boolean(rightIcon);
-  const isFileInput = type === 'file';
+  const isTextArea = Boolean(rowsCount);
 
   const inputClassNames = getValidClassNames(
     styles['input-field'],
+    isTextArea && styles['input-textarea'],
     hasLeftIcon && styles['with-left-icon'],
     hasRightIcon && styles['with-right-icon']
   );
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    onImageChange?.(file);
-    field.onChange(file);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     field.onChange(e.target.value);
@@ -53,21 +50,34 @@ const Input = <T extends FieldValues>({
 
   return (
     <label className={styles['input-label']}>
-      <span className={styles['input-label-text']}>{label}</span>
+      <span className={getValidClassNames(styles['input-label-text'], isLabelHidden && 'visually-hidden')}>
+        {label}
+      </span>
       <div className={styles['input-container']}>
         {hasLeftIcon && (
           <div className={getValidClassNames(styles['input-icon'], styles['input-icon-left'])}>{leftIcon}</div>
         )}
 
-        <input
-          autoComplete={isFileInput ? undefined : autoComplete}
-          className={inputClassNames}
-          name={field.name}
-          onChange={isFileInput ? handleFileChange : handleChange}
-          placeholder={placeholder}
-          type={type}
-          value={isFileInput ? undefined : (field.value ?? '')}
-        />
+        {isTextArea ? (
+          <textarea
+            className={inputClassNames}
+            name={field.name}
+            onChange={field.onChange}
+            placeholder={placeholder}
+            rows={rowsCount}
+            value={field.value}
+          />
+        ) : (
+          <input
+            autoComplete={autoComplete}
+            className={inputClassNames}
+            name={field.name}
+            onChange={handleChange}
+            placeholder={placeholder}
+            type={type}
+            value={field.value ?? ''}
+          />
+        )}
 
         {hasRightIcon && (
           <div className={getValidClassNames(styles['input-icon'], styles['input-icon-right'])}>{rightIcon}</div>

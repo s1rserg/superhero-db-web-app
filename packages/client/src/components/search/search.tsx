@@ -36,6 +36,7 @@ const Search = <T extends FieldValues>({ control, errors, label, name, onChange,
       control={control}
       errors={errors}
       label={label}
+      isLabelHidden
       leftIcon={<Icon height={20} name="search" width={20} />}
       name={name}
       placeholder={placeholder}
