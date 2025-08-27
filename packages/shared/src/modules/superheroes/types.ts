@@ -27,7 +27,7 @@ export type SuperheroUpdateRequestDTO = {
   images?: File[] | string[];
 };
 
-export type SuperheroGetAllRequestDTO = {
+export type SuperheroGetAllResponseDTO = {
   data: SuperheroDTO[];
   totalAmount: number;
 };

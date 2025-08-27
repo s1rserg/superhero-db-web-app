@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import {
   SuperheroCreateRequestDTO,
   SuperheroDTO,
-  SuperheroGetAllRequestDTO,
+  SuperheroGetAllResponseDTO,
   SuperheroUpdateRequestDTO,
 } from '../../libs/common/common';
 import { Superhero } from './superhero.model';
@@ -11,7 +11,7 @@ import { SuperheroRepository } from './superhero.repository';
 class SuperheroService {
   private superheroRepository = new SuperheroRepository();
 
-  public async getAll(page = 1, perPage = 10, nickname?: string): Promise<SuperheroGetAllRequestDTO> {
+  public async getAll(page = 1, perPage = 10, nickname?: string): Promise<SuperheroGetAllResponseDTO> {
     const skip = (page - 1) * perPage;
 
     const where = nickname ? { nickname: { [Op.iLike]: `%${nickname}%` } } : {};

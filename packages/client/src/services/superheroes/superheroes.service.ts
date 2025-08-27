@@ -1,7 +1,7 @@
 import {
   SuperheroCreateRequestDTO,
   SuperheroDTO,
-  SuperheroGetAllRequestDTO,
+  SuperheroGetAllResponseDTO,
   SuperheroQueryOptions,
   SuperheroUpdateRequestDTO,
 } from '~/common/types/types';
@@ -26,7 +26,7 @@ class Superheroes {
     this.basePath = ApiPath.SUPERHEROES;
   }
 
-  public getAll(query: SuperheroQueryOptions): Promise<SuperheroGetAllRequestDTO> {
+  public getAll(query: SuperheroQueryOptions): Promise<SuperheroGetAllResponseDTO> {
     const queryParams: Record<string, string> = {
       page: String(query.page ?? 1),
       perPage: String(query.perPage ?? 10),
