@@ -31,3 +31,9 @@ export type SuperheroGetAllRequestDTO = {
   data: SuperheroDTO[];
   totalAmount: number;
 };
+
+export type SuperheroQueryOptions = {
+  name?: string;
+  page?: number;
+  perPage?: number;
+};

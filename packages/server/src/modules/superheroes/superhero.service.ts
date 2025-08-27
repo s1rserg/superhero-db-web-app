@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import {
   SuperheroCreateRequestDTO,
   SuperheroDTO,
@@ -10,16 +11,19 @@ import { SuperheroRepository } from './superhero.repository';
 class SuperheroService {
   private superheroRepository = new SuperheroRepository();
 
-  public async getAll(page = 1, perPage = 10): Promise<SuperheroGetAllRequestDTO> {
+  public async getAll(page = 1, perPage = 10, nickname?: string): Promise<SuperheroGetAllRequestDTO> {
     const skip = (page - 1) * perPage;
+
+    const where = nickname ? { nickname: { [Op.iLike]: `%${nickname}%` } } : {};
 
     const [superheroes, totalAmount] = await Promise.all([
       this.superheroRepository.findAll({
+        where,
         offset: skip,
         limit: perPage,
         order: [['createdAt', 'DESC']],
       }),
-      this.superheroRepository.count(),
+      this.superheroRepository.count({ where }),
     ]);
 
     return {

@@ -10,11 +10,14 @@ class SuperheroController extends BaseController {
 
   public getAll = (req: Request, res: Response, next: NextFunction) =>
     this.handleRequest(req, res, next, async () => {
-      const { page, perPage } = req.query;
+      const { page, perPage, nickname } = req.query;
+
       const superheroes = await this.superheroService.getAll(
         parseInt(page as string) || 1,
-        parseInt(perPage as string) || 10
+        parseInt(perPage as string) || 10,
+        nickname as string | undefined
       );
+
       this.sendResponse(res, superheroes, 200);
     });
 
