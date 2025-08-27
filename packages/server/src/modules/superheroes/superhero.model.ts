@@ -50,6 +50,7 @@ Superhero.init(
   {
     sequelize,
     modelName: 'Superhero',
+    tableName: 'Superheroes',
     timestamps: true,
   }
 );
