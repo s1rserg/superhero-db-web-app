@@ -72,7 +72,7 @@ const Superheroes: React.FC = () => {
           onChange={handleSearchChange}
         />
         <div>
-          <Button label="Create New" onClick={handleCreateModalOpen} />
+          <Button label="Create" onClick={handleCreateModalOpen} />
         </div>
       </div>
 

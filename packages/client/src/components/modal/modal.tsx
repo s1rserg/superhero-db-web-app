@@ -8,28 +8,22 @@ type Properties = {
   isOpened: boolean;
   onClose: () => void;
   title: string;
-  isBig?: boolean;
 };
 
-const Modal = ({ children, isOpened, onClose, title, isBig = true }: Properties) => {
+const Modal = ({ children, isOpened, onClose, title }: Properties) => {
   const dialogReference = useRef<HTMLDialogElement>(null);
 
-  useHandleClickOutside(dialogReference, onClose);
+  useHandleClickOutside(dialogReference as React.RefObject<HTMLElement>, onClose);
 
   if (!isOpened) {
-    return <></>;
+    return null;
   }
 
   return (
     <>
       <div className={styles['modal-backdrop']} />
 
-      <dialog
-        aria-label={title}
-        className={styles['modal-container']}
-        style={isBig ? { minWidth: '800px' } : {}}
-        ref={dialogReference}
-      >
+      <dialog aria-label={title} className={styles['modal-container']} ref={dialogReference}>
         <div className={styles['modal-content']}>
           <div className={styles['modal-close']}>
             <IconButton iconName="cross" label="Close" onClick={onClose} />
