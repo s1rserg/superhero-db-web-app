@@ -1,11 +1,11 @@
-.container {
+.pagination {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 1rem;
 }
 
-.center {
+.pagination__controls {
   grid-column: 2;
   display: flex;
   align-items: center;
@@ -14,18 +14,14 @@
   color: var(--color-text-secondary);
 }
 
-.right {
+.pagination__per-page {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   justify-content: flex-end;
 }
 
-.selectBox {
-  width: 5rem;
-}
-
-.button {
+.pagination__button {
   background: none;
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border-primary);
@@ -35,33 +31,35 @@
   transition: background 0.2s;
 }
 
-.button:hover:not(:disabled) {
+.pagination__button:hover:not(:disabled) {
   background-color: var(--color-background-hover);
 }
 
-.button:disabled {
+.pagination__button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.label {
+.pagination__info {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.pagination__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--color-text-secondary);
   font-size: 0.875rem;
 }
 
-.label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.label-text {
+.pagination__label-text {
   font-size: 16px;
   line-height: 1.2;
   color: var(--color-text-primary);
 }
 
-.control {
+.pagination__select {
   padding: 10px 16px 10px 10px;
   background-color: var(--color-background-secondary);
   border: 1px solid var(--color-border-primary);
@@ -71,7 +69,11 @@
   color: var(--color-text-primary);
 }
 
-.control:hover,
-.control:focus {
+.pagination__select:hover,
+.pagination__select:focus {
   border-color: var(--color-brand-primary);
+}
+
+.pagination__option {
+  font-size: 16px;
 }

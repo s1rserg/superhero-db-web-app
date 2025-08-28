@@ -23,7 +23,6 @@ const ImageInput = <T extends FieldValues>({ control, name, errors, label, place
 
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
-
     const newFiles = Array.from(files);
     setPreviews((prev) => [...prev, ...newFiles]);
     field.onChange([...previews, ...newFiles]);
@@ -37,36 +36,44 @@ const ImageInput = <T extends FieldValues>({ control, name, errors, label, place
 
   const error = errors ? errors[name]?.message : undefined;
   const hasError = Boolean(error);
+
   return (
-    <div className={styles['uploader']}>
-      <span className={getValidClassNames(styles['input-label-text'])}>{label}</span>
-      <label className={styles['label']}>
+    <div className={styles['image-input']}>
+      <span className={getValidClassNames(styles['image-input__label-text'])}>{label}</span>
+
+      <label className={styles['image-input__label']}>
         {placeholder || 'Choose images'}
         <input
           type="file"
           accept="image/*"
           multiple
-          className={styles['input']}
+          className={styles['image-input__field']}
           onChange={(e) => handleFiles(e.target.files)}
         />
       </label>
-      <div className={styles.previewContainer}>
+
+      <div className={styles['image-input__previews']}>
         {previews
           .filter((item) => item !== null)
           .map((item, index) => (
-            <div key={index} className={styles.preview}>
+            <div key={index} className={styles['image-input__preview']}>
               {typeof item === 'string' ? (
-                <img src={item} alt={`preview-${index}`} className={styles.image} />
+                <img src={item} alt={`preview-${index}`} className={styles['image-input__preview-image']} />
               ) : (
-                <img src={URL.createObjectURL(item)} alt={`preview-${index}`} className={styles.image} />
+                <img
+                  src={URL.createObjectURL(item)}
+                  alt={`preview-${index}`}
+                  className={styles['image-input__preview-image']}
+                />
               )}
-              <button type="button" onClick={() => removePreview(index)} className={styles.removeButton}>
+              <button type="button" onClick={() => removePreview(index)} className={styles['image-input__remove-btn']}>
                 x
               </button>
             </div>
           ))}
       </div>
-      {hasError && <span className={styles['input-error']}>{error as string}</span>}
+
+      {hasError && <span className={styles['image-input__error']}>{error as string}</span>}
     </div>
   );
 };

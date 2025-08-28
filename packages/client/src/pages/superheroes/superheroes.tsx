@@ -6,7 +6,7 @@ import { actions } from '~/store/superheroes/superheroes';
 import styles from './styles.module.css';
 import { Pagination } from '~/components/pagination/pagination';
 import { Search } from '~/components/search/search';
-import SuperheroCard from './components/superhero-card/superhero-card';
+import { SuperheroCard } from './components/superhero-card/superhero-card';
 import { SuperheroCreateRequestDTO } from '~/common/types/types';
 import { SuperheroCreateForm } from './components/superhero-create-form/superhero-create-form';
 
@@ -14,7 +14,7 @@ type SearchForm = {
   search: string;
 };
 
-export const Superheroes: React.FC = () => {
+const Superheroes: React.FC = () => {
   const dispatch = useAppDispatch();
   const { superheroes, totalAmount, status, createStatus } = useAppSelector((state) => state.superheroesReducer);
 
@@ -104,3 +104,5 @@ export const Superheroes: React.FC = () => {
     </PageLayout>
   );
 };
+
+export { Superheroes };
