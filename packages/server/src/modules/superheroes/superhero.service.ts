@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import {
-  SuperheroCreateRequestDTO,
+  SuperheroCreateInternalDTO,
   SuperheroDTO,
   SuperheroGetAllResponseDTO,
   SuperheroUpdateRequestDTO,
@@ -40,7 +40,7 @@ class SuperheroService {
     return this.toDTO(superhero);
   }
 
-  public async create(data: SuperheroCreateRequestDTO): Promise<SuperheroDTO> {
+  public async create(data: SuperheroCreateInternalDTO): Promise<SuperheroDTO> {
     const superhero = await this.superheroRepository.create(data);
 
     return this.toDTO(superhero);

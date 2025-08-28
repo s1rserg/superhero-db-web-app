@@ -1,5 +1,7 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
-import sequelize from '../../libs/database/database';
+import { getSequelize } from '../../libs/database/database';
+
+const sequelize = getSequelize();
 
 class Superhero extends Model {
   declare id: CreationOptional<string>;

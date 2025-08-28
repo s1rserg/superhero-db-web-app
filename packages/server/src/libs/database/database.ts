@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
-  dialect: 'postgres',
-});
-
-export default sequelize;
+export function getSequelize() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is missing');
+  }
+  return new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
+}

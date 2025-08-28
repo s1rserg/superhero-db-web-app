@@ -3,6 +3,7 @@ import { BaseController } from '../../libs/core/base-controller';
 import { SuperheroService } from './superhero.service';
 import { ImageService } from '../images/image.service';
 import fs from 'fs/promises';
+import { SuperheroCreateRequestSchema, SuperheroUpdateRequestSchema } from '../../libs/common/common';
 
 class SuperheroController extends BaseController {
   private superheroService = new SuperheroService();
@@ -29,55 +30,67 @@ class SuperheroController extends BaseController {
     });
 
   public create = (req: Request, res: Response, next: NextFunction) =>
-    this.handleRequest(req, res, next, async (req: Request, res: Response) => {
-      const imageFiles = (req.files as Express.Multer.File[]) || [];
-      const uploadedUrls = await Promise.all(
-        imageFiles.map((file) => this.imageService.upload(file.path, 'superheroes'))
-      );
+    this.handleRequest(
+      req,
+      res,
+      next,
+      async (req: Request, res: Response) => {
+        const imageFiles = (req.files as Express.Multer.File[]) || [];
+        const uploadedUrls = await Promise.all(
+          imageFiles.map((file) => this.imageService.upload(file.path, 'superheroes'))
+        );
 
-      await Promise.all(imageFiles.map((file) => fs.unlink(file.path).catch(() => {})));
+        await Promise.all(imageFiles.map((file) => fs.unlink(file.path).catch(() => {})));
 
-      const data = {
-        ...req.body,
-        images: uploadedUrls,
-      };
+        const data = {
+          ...req.body,
+          images: uploadedUrls,
+        };
 
-      const newSuperhero = await this.superheroService.create(data);
+        const newSuperhero = await this.superheroService.create(data);
 
-      this.sendResponse(res, newSuperhero, 201);
-    });
+        this.sendResponse(res, newSuperhero, 201);
+      },
+      SuperheroCreateRequestSchema
+    );
 
   public update = (req: Request, res: Response, next: NextFunction) =>
-    this.handleRequest(req, res, next, async (req: Request, res: Response) => {
-      const superheroId = req.params.id;
-      const imageFiles = (req.files as Express.Multer.File[]) || [];
+    this.handleRequest(
+      req,
+      res,
+      next,
+      async (req: Request, res: Response) => {
+        const superheroId = req.params.id;
+        const imageFiles = (req.files as Express.Multer.File[]) || [];
 
-      let imagesUrls: string[] = [];
-      if (req.body.images) {
-        try {
-          imagesUrls = Array.isArray(req.body.images) ? req.body.images : JSON.parse(req.body.images);
-        } catch {
-          imagesUrls = [req.body.images];
+        let imagesUrls: string[] = [];
+        if (req.body.images) {
+          try {
+            imagesUrls = Array.isArray(req.body.images) ? req.body.images : JSON.parse(req.body.images);
+          } catch {
+            imagesUrls = [req.body.images];
+          }
         }
-      }
 
-      const uploadedUrls = await Promise.all(
-        imageFiles.map((file) => this.imageService.upload(file.path, 'superheroes'))
-      );
+        const uploadedUrls = await Promise.all(
+          imageFiles.map((file) => this.imageService.upload(file.path, 'superheroes'))
+        );
 
-      await Promise.all(imageFiles.map((file) => fs.unlink(file.path).catch(() => {})));
+        await Promise.all(imageFiles.map((file) => fs.unlink(file.path).catch(() => {})));
 
-      const finalImages = [...imagesUrls, ...uploadedUrls];
+        const finalImages = [...imagesUrls, ...uploadedUrls];
 
-      const data = {
-        ...req.body,
-        images: finalImages,
-      };
+        const data = {
+          ...req.body,
+          images: finalImages,
+        };
 
-      const updatedSuperhero = await this.superheroService.update(superheroId, data);
+        const updatedSuperhero = await this.superheroService.update(superheroId, data);
 
-      this.sendResponse(res, updatedSuperhero, 200);
-    });
+        this.sendResponse(res, updatedSuperhero, 200);
+      },
+      SuperheroUpdateRequestSchema
+    );
 
   public delete = (req: Request, res: Response, next: NextFunction) =>
     this.handleRequest(req, res, next, async () => {

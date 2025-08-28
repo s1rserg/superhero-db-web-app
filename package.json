@@ -16,7 +16,8 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
     "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "npm --workspace packages/server run test"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

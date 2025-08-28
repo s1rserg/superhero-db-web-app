@@ -19,6 +19,15 @@ export type SuperheroCreateRequestDTO = {
   images: File[];
 };
 
+export type SuperheroCreateInternalDTO = {
+  nickname: string;
+  realName: string;
+  originDescription: string;
+  superpowers: string;
+  catchPhrase: string;
+  images: string[];
+};
+
 export type SuperheroUpdateRequestDTO = {
   nickname: string;
   realName: string;

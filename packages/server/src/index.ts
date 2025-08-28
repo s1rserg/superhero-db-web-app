@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import superheroRoutes from './modules/superheroes/superhero.route';
-import sequelize from './libs/database/database';
+import { getSequelize } from './libs/database/database';
+
+const sequelize = getSequelize();
 
 dotenv.config();
 
