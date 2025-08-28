@@ -7,6 +7,7 @@ export type SuperheroDTO = {
   catchPhrase: string;
   images: string[];
   createdAt: Date;
+  updatedAt: Date;
 };
 
 export type SuperheroCreateRequestDTO = {
@@ -19,12 +20,12 @@ export type SuperheroCreateRequestDTO = {
 };
 
 export type SuperheroUpdateRequestDTO = {
-  nickname?: string;
-  realName?: string;
-  originDescription?: string;
-  superpowers?: string;
-  catchPhrase?: string;
-  images?: File[] | string[];
+  nickname: string;
+  realName: string;
+  originDescription: string;
+  superpowers: string;
+  catchPhrase: string;
+  images: File[] | string[];
 };
 
 export type SuperheroGetAllResponseDTO = {

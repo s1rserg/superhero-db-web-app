@@ -32,7 +32,11 @@ const initialState: UsersState = {
 const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    resetDeleteStatus(state) {
+      state.deleteStatus = DataStatus.IDLE;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAll.pending, (state) => {
@@ -96,6 +100,7 @@ const { reducer, actions } = createSlice({
         const updatedSuperhero = action.payload;
         const superheroId = updatedSuperhero.id;
         state.superheroes = state.superheroes.map((s) => (s.id === superheroId ? updatedSuperhero : s));
+        state.superhero = action.payload;
         notifySuccess('Superhero updated successfully.');
       })
       .addCase(update.rejected, (state, action) => {

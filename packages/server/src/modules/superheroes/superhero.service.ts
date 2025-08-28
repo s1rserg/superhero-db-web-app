@@ -70,6 +70,7 @@ class SuperheroService {
       catchPhrase: superhero.catchPhrase,
       images: superhero.images,
       createdAt: superhero.createdAt,
+      updatedAt: superhero.updatedAt,
     };
   }
 }

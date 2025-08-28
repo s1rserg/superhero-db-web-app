@@ -18,7 +18,7 @@ const Superheroes: React.FC = () => {
   const dispatch = useAppDispatch();
   const { superheroes, totalAmount, status, createStatus } = useAppSelector((state) => state.superheroesReducer);
 
-  const { page, perPage, totalPages, setPage, setPerPage, nextPage, prevPage } = usePagination(totalAmount, 1, 10);
+  const { page, perPage, totalPages, setPage, setPerPage, nextPage, prevPage } = usePagination(totalAmount, 1, 5);
   const [searchParam, setSearchParam] = useSearchParam('search', '');
 
   const { control, errors } = useAppForm<SearchForm>({
@@ -98,7 +98,7 @@ const Superheroes: React.FC = () => {
         />
       )}
 
-      <Modal isOpened={isCreateModalOpen} onClose={handleCreateModalClose} title="Create new workout">
+      <Modal isOpened={isCreateModalOpen} onClose={handleCreateModalClose} title="Create new superhero">
         <SuperheroCreateForm onSubmit={handleSuperheroCreateSubmit} />
       </Modal>
     </PageLayout>

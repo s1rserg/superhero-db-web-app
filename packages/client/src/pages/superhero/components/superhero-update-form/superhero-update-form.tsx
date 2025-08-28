@@ -1,21 +1,21 @@
 import { Input, Button, ImageInput } from '~/components/components';
 import { useAppForm } from '~/hooks/hooks';
 import styles from './styles.module.css';
-import { SuperheroCreateRequestDTO, SuperheroCreateRequestSchema } from '~/common/types/types';
-import { DEFAULT_SUPERHERO_CREATE_PAYLOAD } from './libs/constants/default-superhero-create-payload.constant';
+import { SuperheroDTO, SuperheroUpdateRequestDTO, SuperheroUpdateRequestSchema } from '~/common/types/types';
 
 type Props = {
-  onSubmit: (payload: SuperheroCreateRequestDTO) => void;
+  superhero: SuperheroDTO;
+  onSubmit: (payload: SuperheroUpdateRequestDTO) => void;
 };
 
-const SuperheroCreateForm = ({ onSubmit }: Props) => {
-  const { control, errors, handleSubmit } = useAppForm<SuperheroCreateRequestDTO>({
-    defaultValues: DEFAULT_SUPERHERO_CREATE_PAYLOAD,
-    validationSchema: SuperheroCreateRequestSchema,
+const SuperheroUpdateForm = ({ superhero, onSubmit }: Props) => {
+  const { control, errors, handleSubmit } = useAppForm<SuperheroUpdateRequestDTO>({
+    defaultValues: superhero,
+    validationSchema: SuperheroUpdateRequestSchema,
   });
 
   const handleFormSubmit = (event_: React.BaseSyntheticEvent): void => {
-    void handleSubmit((formData: SuperheroCreateRequestDTO) => {
+    void handleSubmit((formData: SuperheroUpdateRequestDTO) => {
       onSubmit(formData);
     })(event_);
   };
@@ -30,10 +30,10 @@ const SuperheroCreateForm = ({ onSubmit }: Props) => {
       <ImageInput control={control} name="images" label="Images" placeholder="Add Superhero images" errors={errors} />
 
       <div className={styles['button-wrapper']}>
-        <Button label="Create Superhero" />
+        <Button label="Update Superhero" />
       </div>
     </form>
   );
 };
 
-export { SuperheroCreateForm };
+export { SuperheroUpdateForm };
