@@ -67,13 +67,18 @@ class Superheroes {
   public update(id: SuperheroDTO['id'], data: SuperheroUpdateRequestDTO): Promise<SuperheroDTO> {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      if (key !== 'images') formData.append(key, value as string);
+      if (key !== 'images') {
+        formData.append(key, value as string);
+      }
     });
 
     if (data.images) {
       data.images.forEach((img) => {
-        if (img instanceof File) formData.append('images', img);
-        else formData.append('images', img);
+        if (img instanceof File) {
+          formData.append('images', img);
+        } else {
+          formData.append('existingImages', img);
+        }
       });
     }
 

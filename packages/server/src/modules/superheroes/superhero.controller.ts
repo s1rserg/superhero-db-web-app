@@ -3,7 +3,7 @@ import { BaseController } from '../../libs/core/base-controller';
 import { SuperheroService } from './superhero.service';
 import { ImageService } from '../images/image.service';
 import fs from 'fs/promises';
-import { SuperheroCreateRequestSchema, SuperheroUpdateRequestSchema } from '../../libs/common/common';
+import { SuperheroInternalSchema } from '../../libs/common/common';
 
 class SuperheroController extends BaseController {
   private superheroService = new SuperheroService();
@@ -51,7 +51,7 @@ class SuperheroController extends BaseController {
 
         this.sendResponse(res, newSuperhero, 201);
       },
-      SuperheroCreateRequestSchema
+      SuperheroInternalSchema
     );
 
   public update = (req: Request, res: Response, next: NextFunction) =>
@@ -63,22 +63,23 @@ class SuperheroController extends BaseController {
         const superheroId = req.params.id;
         const imageFiles = (req.files as Express.Multer.File[]) || [];
 
-        let imagesUrls: string[] = [];
-        if (req.body.images) {
-          try {
-            imagesUrls = Array.isArray(req.body.images) ? req.body.images : JSON.parse(req.body.images);
-          } catch {
-            imagesUrls = [req.body.images];
-          }
-        }
-
+        const existingUrls = req.body.existingImages;
         const uploadedUrls = await Promise.all(
-          imageFiles.map((file) => this.imageService.upload(file.path, 'superheroes'))
+          (req.files as Express.Multer.File[]).map((file) => this.imageService.upload(file.path, 'superheroes'))
         );
 
-        await Promise.all(imageFiles.map((file) => fs.unlink(file.path).catch(() => {})));
+        await Promise.all(
+          imageFiles.map(async (file) => {
+            try {
+              await fs.unlink(file.path);
+              console.log('Deleted file:', file.path);
+            } catch (err) {
+              console.error('Failed to delete file:', file.path, err);
+            }
+          })
+        );
 
-        const finalImages = [...imagesUrls, ...uploadedUrls];
+        const finalImages = [...existingUrls, ...uploadedUrls];
 
         const data = {
           ...req.body,
@@ -89,7 +90,7 @@ class SuperheroController extends BaseController {
 
         this.sendResponse(res, updatedSuperhero, 200);
       },
-      SuperheroUpdateRequestSchema
+      SuperheroInternalSchema
     );
 
   public delete = (req: Request, res: Response, next: NextFunction) =>

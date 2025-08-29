@@ -80,6 +80,7 @@ const { reducer, actions } = createSlice({
       .addCase(create.fulfilled, (state, action) => {
         state.createStatus = DataStatus.SUCCESS;
         state.superheroes = [action.payload, ...state.superheroes];
+        state.superheroes.pop();
         notifySuccess('Superhero created successfully.');
       })
       .addCase(create.rejected, (state, action) => {
