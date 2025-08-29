@@ -1,11 +1,12 @@
 # Superhero Database
 
 A full-stack web application for managing superheroes.  
-You can create, edit, delete, and view superheroes, each with images, descriptions, and powers.  
+You can create, edit, delete, and view superheroes, each with images, descriptions, and powers.
 
 ---
 
 ## Features
+
 - **CRUD operations** for superheroes
 - **Image management** (upload/remove) using [Cloudinary](https://cloudinary.com/)
 - **Postgres database** hosted on [Neon](https://neon.tech/)
@@ -21,6 +22,7 @@ You can create, edit, delete, and view superheroes, each with images, descriptio
 ---
 
 ## Tech Stack
+
 - **Backend**: Node.js + Express.js
 - **Frontend**: React, RTK, RHF
 - **Shared**: Zod
@@ -31,22 +33,23 @@ You can create, edit, delete, and view superheroes, each with images, descriptio
 ---
 
 ## Assumptions
-- Filtering is implemented **only by nickname**.  
-- **Full validation** is present in create/update forms — no fields are optional.  
-- No **Authentication & Authorization** is implemented (open access).  
-- The app is hosted on **Render (free tier)**, so cold starts may cause up to ~1 minute delay when first opening.  
-- **Unit tests** cover only backend logic (not frontend).  
 
+- Filtering is implemented **only by nickname**.
+- **Full validation** is present in create/update forms — no fields are optional.
+- No **Authentication & Authorization** is implemented (open access).
+- The app is hosted on **Render (free tier)**, so cold starts may cause up to ~1 minute delay when first opening.
+- **Unit tests** cover only backend logic (not frontend).
 
 ## Getting Started
 
 ### 1. Clone the repo
+
 ### 2. Setup environment variables
 
-Rename:
+Paste keys from [here](https://docs.google.com/document/d/1LcES3wRbDShmjskQLRV_bpJOIVBJNSrymttQ-usW3O0/edit?usp=sharing) to
 
 ```bash
-packages/server/.env.example → packages/server/.env
+packages/server/.env
 ```
 
 I don't know the better way to pass this data to you, but all services are free so don't worry.
