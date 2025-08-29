@@ -8,11 +8,11 @@
     "packages/*"
   ],
   "scripts": {
-    "server:dev": "npm --workspace packages/server run dev",
-    "server:build": "npm --workspace packages/server run build",
-    "server:start": "npm --workspace packages/server run start",
-    "client:dev": "npm --workspace packages/client run dev",
-    "client:build": "npm --workspace packages/client run build",
+    "dev:s": "npm --workspace packages/server run dev",
+    "build:s": "npm --workspace packages/server run build",
+    "start:s": "npm --workspace packages/server run start",
+    "dev:c": "npm --workspace packages/client run dev",
+    "build:c": "npm --workspace packages/client run build",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
     "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix",
     "format": "prettier --write .",

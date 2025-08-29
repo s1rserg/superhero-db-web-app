@@ -11,6 +11,7 @@ export default defineConfig({
       include: '**/*.svg?react',
     }),
   ],
+  base: '/superhero-db-web-app/',
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
