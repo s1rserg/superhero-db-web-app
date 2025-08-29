@@ -33,6 +33,10 @@ const Superheroes: React.FC = () => {
   );
 
   useEffect(() => {
+    setPage(1);
+  }, [searchParam]);
+
+  useEffect(() => {
     void dispatch(
       actions.getAll({
         page,
@@ -76,26 +80,31 @@ const Superheroes: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.grid}>
-        {superheroes.map((hero) => (
-          <SuperheroCard key={hero.id} hero={hero} />
-        ))}
-      </div>
-
       {isLoading ? (
         <div>
           <Loader />
         </div>
       ) : (
-        <Pagination
-          page={page}
-          perPage={perPage}
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setPage={setPage}
-          setPerPage={setPerPage}
-          totalPages={totalPages}
-        />
+        <>
+          <div className={styles.grid}>
+            {superheroes.length === 0 && !isLoading ? (
+              <p className={styles.emptyMessage}>
+                {searchParam ? 'No superheroes match your criteria.' : 'There are no superheroes yet.'}
+              </p>
+            ) : (
+              superheroes.map((hero) => <SuperheroCard key={hero.id} hero={hero} />)
+            )}
+          </div>
+          <Pagination
+            page={page}
+            perPage={perPage}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setPage={setPage}
+            setPerPage={setPerPage}
+            totalPages={totalPages}
+          />
+        </>
       )}
 
       <Modal isOpened={isCreateModalOpen} onClose={handleCreateModalClose} title="Create new superhero">

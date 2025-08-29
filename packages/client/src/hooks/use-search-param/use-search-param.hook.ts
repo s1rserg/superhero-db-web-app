@@ -9,12 +9,13 @@ export function useSearchParam(paramName: string, defaultValue = '') {
   const setValue = useCallback(
     (newValue: string) => {
       const newParams = new URLSearchParams(searchParams);
+
       if (newValue) {
         newParams.set(paramName, newValue);
       } else {
         newParams.delete(paramName);
       }
-      if (newParams.has('page')) newParams.set('page', '1');
+
       setSearchParams(newParams);
     },
     [paramName, searchParams, setSearchParams]
