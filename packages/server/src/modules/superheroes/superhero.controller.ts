@@ -74,7 +74,10 @@ class SuperheroController extends BaseController {
           })
         );
 
-        const finalImages = [...(Array.isArray(existingUrls) ? existingUrls : []), ...uploadedUrls];
+        const finalImages = [
+          ...(Array.isArray(existingUrls) ? existingUrls : typeof existingUrls === 'string' ? [existingUrls] : []),
+          ...uploadedUrls,
+        ];
 
         const data = {
           ...req.body,
