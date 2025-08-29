@@ -90,5 +90,5 @@ export const SuperheroInternalSchema = z.object({
     .min(1, { message: 'Catch phrase is required.' })
     .max(200, { message: 'Catch phrase  must be at most 200 characters.' }),
 
-  existingImages: z.array(z.string()).optional(),
+  existingImages: z.union([z.string(), z.array(z.string())]).optional(),
 });

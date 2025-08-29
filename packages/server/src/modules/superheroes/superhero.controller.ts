@@ -70,16 +70,11 @@ class SuperheroController extends BaseController {
 
         await Promise.all(
           imageFiles.map(async (file) => {
-            try {
-              await fs.unlink(file.path);
-              console.log('Deleted file:', file.path);
-            } catch (err) {
-              console.error('Failed to delete file:', file.path, err);
-            }
+            await fs.unlink(file.path);
           })
         );
 
-        const finalImages = [...existingUrls, ...uploadedUrls];
+        const finalImages = [...(Array.isArray(existingUrls) ? existingUrls : []), ...uploadedUrls];
 
         const data = {
           ...req.body,
